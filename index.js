@@ -58,7 +58,9 @@ function handle_addCartItem() {
         price,
         imgSrc,
     };
+
     let cartBoxElement = CartBoxComponent(title, price, imgSrc);
+    // CartBoxComponent=newToAdd;
     let newNode = document.createElement("div");
     newNode.innerHTML = cartBoxElement;
     const cartContent = cart.querySelector(".cart-content");
@@ -66,10 +68,13 @@ function handle_addCartItem() {
     update();
 }
 
-
-function CartBoxComponent(title, price, imgSrc) {
-    return ' <div class = "cart-box"><img src = {imgSrc} alt="" class="cart-img"/><div class="detail-box">   <div class="cart-product-title">{title}</div> <div class ="cart-price"> {price}</div><input type="number" value="1"  class="cart-quatity"/></div><i class="bx bxs-trash-alt cart-remove"></i> </div>'
+ CartBoxComponent = (title,price,imgSrc) => { 
+    /* document.createElement("div");*/
+    //  ''
+    document.getElementById("cart-element").innerHTML=(title + price);
+    
 }
+
 
 function handle_removeCartItem() {
     this.parentElement.remove();
