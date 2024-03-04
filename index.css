@@ -75,6 +75,7 @@ header{
     position: fixed;
     top:0;
     right: 0;
+    right:-100%;
     width: 360px;
     height: 100vh;
     overflow-y: auto;
@@ -109,6 +110,12 @@ header{
     height: 100px;
     object-fit: contain;
     padding: 10px
+}
+#cart-element{
+    display:flex;
+    flex-direction: column;
+    position:absolute;
+    top:300px;
 }
 .detail-box{
     display: grid;
