@@ -4,7 +4,7 @@ const closeCart = document.querySelector("#cart-close");
 
 
 cartIcon.addEventListener("click", () => {
-    cart.classList.add('active');
+    cart.classList.add("active");
 })
 
 closeCart.addEventListener("click", () => {
@@ -44,8 +44,13 @@ cartQuantity_inputs.forEach(input => {
     let addCart_btn = document.querySelectorAll(".add-cart");
     addCart_btn.forEach(btn => {
         btn.addEventListener("click", handle_addCartItem);
-    })
-})
+    });
+    const buy_btn = document.querySelector(".btn-buy");
+    buy_btn.addEventListener("click",handle_buyOrder);
+});
+
+let itemsAdded = [];
+
 function handle_addCartItem() {
     let product = this.parentElement;
     let title = product.querySelector(".product-title").innerHTML;
@@ -58,27 +63,29 @@ function handle_addCartItem() {
         price,
         imgSrc,
     };
+    if(itemsAdded.find((el)=>el.title==newToAdd.title)){
+        alert("this items is already exist!");
+        return;
+    }else{
+        itemsAdded.push(newToAdd)
+    }
+
 
     let cartBoxElement = CartBoxComponent(title, price, imgSrc);
-    // CartBoxComponent=newToAdd;
     let newNode = document.createElement("div");
     newNode.innerHTML = cartBoxElement;
     const cartContent = cart.querySelector(".cart-content");
-    cartContent.appendChild(newNode)
+    cartContent.appendChild(newNode);
     update();
 }
 
- CartBoxComponent = (title,price,imgSrc) => { 
-    /* document.createElement("div");*/
-    //  ''
-    document.getElementById("cart-element").innerHTML=(title + price);
-    
-}
-
-
 function handle_removeCartItem() {
     this.parentElement.remove();
-    update()
+    itemsAdded = itemsAdded.filter(
+       (el)=>
+        el.title!=this.parentElement.querySelector(".cart-product-title").innerHTML
+    );
+    update();
 }
 
 function handle_changeItemQuantity() {
@@ -86,23 +93,53 @@ function handle_changeItemQuantity() {
         this.value = 1
     }
     this.value = Math.floor(this.value);
-    update()
+    update();
+}
+function handle_buyOrder(){
+    if(itemsAdded.length<=0) {alert("There is no order make Yet \n Please make an order first");
+    return;
+}
+cartContent = cart.querySelector(".cart-content");
+cartContent.innerHTML="" ;
+alert("your order is placed succesfuly");
+itemsAdded=[];
+update();
+
 }
 
+
+
+
+//==================================
 updateTotale = () => {
     let cartBoxes = document.querySelectorAll(".cart-box");
     const totalElement = document.querySelector(".total-price");
     let total = 0;
-    cartBoxes.forEach(cartBoxe => {
-        let priceElement = cartBoxe.querySelector(".cart-price");
+    cartBoxes.forEach((cartBoxes) => {
+        let priceElement = cartBoxes.querySelector(".cart-price");
         let price = parseFloat(priceElement.innerHTML.replace("$", ""));
-        let quantity = cartBoxe.querySelector(".cart-quatity").value;
-        total += price * quantity;
+        let quantity = cartBoxes.querySelector(".cart-quatity").value;
+        total = price * quantity;   
     });
-    total = total.toFixed(2);
+    total = total.toFixed(1);
     totalElement.innerHTML = "$" + total;
+// update();
+CartBoxComponent();
 }
 
 
 //====================html components========================
-// let newNode = document.createElement("div", "img")
+function CartBoxComponent(title, price, imgSrc) {
+      return `
+        <div class="cart-box">
+          <img src="${imgSrc}" class="cart-img">
+          <div class="detail-box">
+            <div class="cart-product-title">${title}</div>
+            <div class="cart-price">${price}</div>
+            <input type="number" value="1" class="cart-quantity">
+          </div>
+          <i class="bx bxs-trash-alt cart-remove"></i>
+        </div>
+      `;
+   
+    }
