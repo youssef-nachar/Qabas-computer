@@ -130,16 +130,15 @@ CartBoxComponent();
 
 //====================html components========================
 function CartBoxComponent(title, price, imgSrc) {
-      return `
-        <div class="cart-box">
-          <img src="${imgSrc}" class="cart-img">
-          <div class="detail-box">
-            <div class="cart-product-title">${title}</div>
-            <div class="cart-price">${price}</div>
-            <input type="number" value="1" class="cart-quantity">
-          </div>
-          <i class="bx bxs-trash-alt cart-remove"></i>
-        </div>
-      `;
-   
-    }
+    return `
+        <div class="cart-box">
+            <img src="${imgSrc}" class="cart-img">
+            <div class="detail-box">
+                <div class="cart-product-title">${title}</div>
+                <div class="cart-price">${price}</div>
+                <input type="number" value="1" class="cart-quantity">
+            </div>
+            <i class="bx bxs-trash-alt cart-remove"></i>
+        </div>
+    `;
+}
